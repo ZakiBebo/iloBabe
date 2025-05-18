@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>von bebo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Magnolia+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      background-color: #F0E6D2; /* Helleres Beige */
+      color: #333;
+      overflow-x: hidden;
+      text-align: center;
+      transition: background-color 0.5s;
+      position: relative;
+    }
+
+    /* Brown heart emojis in background */
+    .heart-bg {
+      position: absolute;
+      font-size: 24px;
+      color: #795548;
+      opacity: 0.15;
+      z-index: -1;
+      animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.8em;
+      margin: 20px 0;
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      letter-spacing: 2px;
+      padding: 10px 15px;
+      font-family: 'Alex Brush', cursive;
+      background-color: rgba(255,255,255,0.7);
+      border-radius: 5px;
+      display: inline-block;
+    }
+
+    /* Rest of your CSS remains the same */
+    .container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin: 20px auto;
+      max-width: 500px;
+      transition: all 0.5s;
+      padding: 10px;
+    }
+
+    /* Lila Brief in der Mitte */
+    .envelope-7 {
+      grid-column: 1 / span 2;
+      justify-self: center;
+      width: 180px;
+      background-color: #8a2be2 !important;
+    }
+
+    /* Realistischer Briefumschlag */
+    .envelope {
+      width: 100%;
+      max-width: 180px;
+      height: 120px;
+      position: relative;
+      cursor: pointer;
+      perspective: 1000px;
+      margin: 0 auto;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+    }
+
+    .envelope-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.3s;
+    }
+
+    .envelope:hover .envelope-inner {
+      transform: translateY(-10px);
+    }
+
+    .envelope-front {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      border-radius: 2px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0,0,0,0.2);
+    }
+
+    .envelope-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      border-radius: 2px;
+      z-index: 1;
+      border: 1px solid rgba(0,0,0,0.2);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .envelope-flap {
+      position: absolute;
+      width: 100%;
+      height: 50%;
+      background: inherit;
+      border-radius: 2px 2px 0 0;
+      transform-origin: top;
+      z-index: 3;
+      border: 1px solid rgba(0,0,0,0.2);
+      box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
+      transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .envelope-seal {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #8B0000;
+      z-index: 4;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    /* Flamme statt Herz für lila Brief */
+    .envelope-7 .envelope-seal {
+      color: #ff4500;
+      background: transparent;
+      box-shadow: none;
+      font-size: 24px;
+    }
+
+    /* Beschriftung auf den Umschlägen */
+    .envelope-label {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      top: 75%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 1.2em;
+      z-index: 5;
+      pointer-events: none;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+      font-family: 'Alex Brush', cursive;
+    }
+
+    /* Lila Brief hat spezielle Beschriftung */
+    .envelope-7 .envelope-label {
+      font-size: 1.4em;
+      text-shadow: 0 0 5px rgba(0,0,0,0.7);
+    }
+
+    /* Farbverlauf von Pink zu Hellrot */
+    .envelope-1 { background-color: #FF9BB3; } /* Zartes Pink */
+    .envelope-2 { background-color: #FF8AA3; } /* Warmes Pink */
+    .envelope-3 { background-color: #FF7993; } /* Kräftiges Pink */
+    .envelope-4 { background-color: #FF6883; } /* Tiefes Pink */
+    .envelope-5 { background-color: #FF5773; } /* Leuchtendes Rot */
+    .envelope-6 { background-color: #FF4663; } /* Klares Rot */
+    .envelope-7 { background-color: #8a2be2; } /* Lila */
+
+    /* Geöffneter Brief mit farbigem Hintergrund */
+    .letter-opened {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.7) rotateZ(-5deg);
+      width: 90vw;
+      max-width: 500px;
+      min-height: 60vh;
+      max-height: 80vh;
+      background: #fff9f9;
+      border-radius: 5px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+      padding: 20px;
+      z-index: 100;
+      opacity: 0;
+      display: none;
+      overflow-y: auto;
+      animation: unfoldLetter 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    /* Dekorationen in den Ecken */
+    .decoration {
+      position: absolute;
+      font-size: 24px;
+      z-index: 1;
+      color: #795548; /* Braun */
+    }
+    
+    /* Herzen für normale Briefe */
+    .heart-top-left {
+      top: 10px;
+      left: 10px;
+      transform: rotate(-45deg);
+    }
+    
+    .heart-top-right {
+      top: 10px;
+      right: 10px;
+      transform: rotate(45deg);
+    }
+    
+    .heart-bottom-left {
+      bottom: 10px;
+      left: 10px;
+      transform: rotate(-135deg);
+    }
+    
+    .heart-bottom-right {
+      bottom: 10px;
+      right: 10px;
+      transform: rotate(135deg);
+    }
+    
+    /* Schlösser für lila Brief */
+    .lock-top-left {
+      top: 10px;
+      left: 10px;
+      transform: rotate(-45deg);
+      color: #8a2be2;
+    }
+    
+    .lock-top-right {
+      top: 10px;
+      right: 10px;
+      transform: rotate(45deg);
+      color: #8a2be2;
+    }
+    
+    .lock-bottom-left {
+      bottom: 10px;
+      left: 10px;
+      transform: rotate(-135deg);
+      color: #8a2be2;
+    }
+    
+    .lock-bottom-right {
+      bottom: 10px;
+      right: 10px;
+      transform: rotate(135deg);
+      color: #8a2be2;
+    }
+
+    /* Farbklassen für geöffnete Briefe */
+    .letter-bg-1 { background: linear-gradient(to bottom, #FF9BB3 0%, #fff9f9 100%); }
+    .letter-bg-2 { background: linear-gradient(to bottom, #FF8AA3 0%, #fff9f9 100%); }
+    .letter-bg-3 { background: linear-gradient(to bottom, #FF7993 0%, #fff9f9 100%); }
+    .letter-bg-4 { background: linear-gradient(to bottom, #FF6883 0%, #fff9f9 100%); }
+    .letter-bg-5 { background: linear-gradient(to bottom, #FF5773 0%, #fff9f9 100%); }
+    .letter-bg-6 { background: linear-gradient(to bottom, #FF4663 0%, #fff9f9 100%); }
+    .letter-bg-7 { background: linear-gradient(to bottom, #8a2be2 0%, #e6d5ff 100%); }
+
+    @keyframes unfoldLetter {
+      0% { transform: translate(-50%, -50%) scale(0.3) rotateZ(-15deg); opacity: 0; }
+      60% { transform: translate(-50%, -50%) scale(1.05) rotateZ(2deg); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1) rotateZ(0deg); opacity: 1; }
+    }
+
+    .letter-content {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      font-size: 1.5em;
+      line-height: 1.6;
+      color: #333;
+      text-align: left;
+      padding: 15px;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 3px;
+      white-space: pre-line;
+      position: relative;
+      z-index: 2;
+      font-family: 'Magnolia Script', cursive;
+    }
+
+    .letter-title {
+      font-size: 1.8em;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #8B0000;
+      border-bottom: 1px solid #8B0000;
+      padding-bottom: 10px;
+      font-family: 'Alex Brush', cursive;
+    }
+
+    .close-btn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      width: 40px;
+      height: 40px;
+      background-color: #8B0000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+      z-index: 101;
+      border: none;
+      outline: none;
+    }
+
+    .close-btn:hover {
+      transform: scale(1.1) rotate(90deg);
+      background-color: #600000;
+    }
+
+    .close-btn::before, .close-btn::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 2px;
+      background-color: white;
+    }
+
+    .close-btn::before {
+      transform: rotate(45deg);
+    }
+
+    .close-btn::after {
+      transform: rotate(-45deg);
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      z-index: 99;
+      opacity: 0;
+      display: none;
+      animation: fadeIn 0.5s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Passwort-Eingabe */
+    .password-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      z-index: 102;
+      display: none;
+      text-align: center;
+      max-width: 90%;
+      width: 350px;
+    }
+
+    .password-input {
+      width: 100%;
+      padding: 10px;
+      margin: 15px 0;
+      font-size: 1.2em;
+      border: 2px solid #8B0000;
+      border-radius: 5px;
+      font-family: 'Alex Brush', cursive;
+    }
+
+    .password-submit {
+      background-color: #8B0000;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-family: 'Alex Brush', cursive;
+    }
+
+    .password-submit:hover {
+      background-color: #600000;
+    }
+
+    /* Vibrationseffekt */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+      20%, 40%, 60%, 80% { transform: translateX(10px); }
+    }
+
+    .shake {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    body.letter-open {
+      overflow: hidden;
+    }
+
+    body.letter-open .container,
+    body.letter-open h1 {
+      filter: blur(3px);
+      pointer-events: none;
+      transform: scale(0.98);
+    }
+
+    .letter-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 39px,
+        rgba(0,0,0,0.1) 39px,
+        rgba(0,0,0,0.1) 40px
+      );
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* Desktop Version */
+    @media (min-width: 768px) {
+      .container {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 800px;
+        gap: 20px;
+      }
+      
+      .envelope-7 {
+        grid-column: 2 / span 1;
+      }
+      
+      h1 {
+        font-size: 3.5em;
+      }
+      
+      .letter-opened {
+        width: 70vw;
+        max-width: 700px;
+        min-height: 70vh;
+        max-height: 85vh;
+        padding: 40px;
+      }
+      
+      .letter-content {
+        font-size: 1.8em;
+        line-height: 1.8;
+        padding: 30px;
+      }
+      
+      .letter-title {
+        font-size: 2.2em;
+      }
+      
+      .decoration {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>MY BABE</h1>
+
+  <div class="container">
+    <!-- 6 Briefe in 2x3 Anordnung mit Beschriftungen -->
+    <div class="envelope envelope-1" onclick="openLetter(this, 'Your Eyes', 'Im Moment, in dem ich deine Augen gesehen habe, habe ich mich verliebt. Ich liebe deine wundervollen Augen, alles daran ist perfekt. Ich möchte, dass du mich mit diesen Augen jeden Tag anschaust, dass du sie nur für mich benutzt. Ich will, dass du nur mich siehst, dass du nur mich liebst. Ich will dich in die Augen gucken, während ich dir sage, dass ich dich liebe, und die Freude in deinen Augen sehen. Ich will dich küssen, während ich in deine Augen sehe, damit du meine Liebe spürst. Ilajda, ich liebe dich und deine wundervollen Augen.')">
+      <div class="envelope-inner">
+        <div class="envelope-back"></div>
+        <div class="envelope-front"></div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal">♥</div>
+        <div class="envelope-label">Your Eyes</div>
+      </div>
+    </div>
+
+    <div class="envelope envelope-2" onclick="openLetter(this, 'Your Smile', 'Nichts macht mich so glücklich wie dich lächeln zu sehen. Ich möchte dich zum Lachen bringen, dich glücklich machen. Ich will sehen, wie du anfängst zu lächeln, während du mich ansiehst, und sehen, wie deine Wangen rot werden, weil du so schüchtern bist. Ich will deine Freude sehen anhand deines süßen Lächelns. Ich liebe es, ich liebe es, ich liebe es. Bitte hör nie auf zu lachen, mein Schatz.')">
+      <div class="envelope-inner">
+        <div class="envelope-back"></div>
+        <div class="envelope-front"></div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal">♥</div>
+        <div class="envelope-label">Your Smile</div>
+      </div>
+    </div>
+
+    <div class="envelope envelope-3" onclick="openLetter(this, 'Your Heart', 'Ilajda, ich sage es oft, aber du hast so ein reines Herz, bist so voller Liebe, so süß. Ich liebe es, wie hilfsbereit du bist, wie sehr du dich für jeden aufopferst. Ich liebe es, wie sehr du an den Menschen hängst, die dir wichtig sind. Ich liebe dich. Ich will, dass du für immer so bleibst, bitte ändere dich niemals. Ich hasse es, dass die Menschen in deiner Umgebung dich so wenig wertschätzen, ich komme damit ehrlich nicht klar. Aber ich liebe es, dass du deiner Familie nicht schaden willst, auch wenn du von ihnen Schaden kriegst, haha. Ilajda, ich liebe dich, Habibti.')">
+      <div class="envelope-inner">
+        <div class="envelope-back"></div>
+        <div class="envelope-front"></div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal">♥</div>
+        <div class="envelope-label">Your Heart</div>
+      </div>
+    </div>
+
+    <div class="envelope envelope-4" onclick="openLetter(this, 'Your Voice', 'Schatz, ich liebe deine Stimme. Du hast es wahrscheinlich schon bemerkt, haha, aber ich frage oft nach Audios, damit ich dich hören kann. Ich liebe einfach alles daran, das gibt mir ehrlichen Seelenfrieden. Ich liebe es und ich liebe dich. Ich liebe es, wie du meinen Namen sagst, wie du mich so sanft ansprichst, wie süß sich deine Stimme anhört. Ich liebe es, wenn ich dich reden höre und zu fühlen, wie mein Herz schneller schlägt deswegen. Ich will deine Stimme voller Freude hören. Ich will hören, wie du mir sagst, wie sehr du mich liebst, wie wichtig ich dir bin und wie du alles für mich machen würdest. Ich liebe alles an dir, 3omri.')">
+      <div class="envelope-inner">
+        <div class="envelope-back"></div>
+        <div class="envelope-front"></div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal">♥</div>
+        <div class="envelope-label">Your Voice</div>
+      </div>
+    </div>
+
+    <div class="envelope envelope-5" onclick="openLetter(this, 'Your Love', 'Ich spüre deine Liebe, obwohl wir so weit voneinander entfernt sind, und ich liebe es. Ich kann es kaum abwarten, deine Liebe in echt zu spüren. Ich liebe es, dass du ein Lovergirl bist. Wie sehr du dich freust, wenn ich dir sage, wie sehr ich dich liebe, aber ich liebe es auch zu sehen, wie du mir deine Liebe zeigst. Auch wenn du sagst, dass du nicht weißt, wie du mir deine Liebe zeigen sollst, machst du es jetzt schon. Du zeigst mir, wie sehr du mich liebst, indem du so gerne mit mir redest, indem du mir sagst, dass du mich liebst. Du munterst mich auf, wenn es mir nicht gut geht. Du hilfst mir, wenn ich einen Fehler mache, du redest voller Liebe mit mir. Du zeigst mir deine Liebe, indem du so eifersüchtig bist, indem du mich nur für dich alleine haben willst. Ich liebe es. Ich will, dass du nur mich haben willst. Ich liebe alles an dir, Albi.')">
+      <div class="envelope-inner">
+        <div class="envelope-back"></div>
+        <div class="envelope-front"></div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal">♥</div>
+        <div class="envelope-label">Your Love</div>
+      </div>
+    </div>
+
+    <div class="envelope envelope-6" onclick="openLetter(this, 'Your Personality', 'Und nun kommen wir zum Grund, warum ich mich in dich verliebt habe. Ilajda, ich liebe deine Persönlichkeit, einfach nur alles daran. Ich liebe es, dass du so freundlich zu mir bist und zu anderen, ich liebe es, dass du so hilfsbereit bist. ICHHHHH LIEBE deinen Humor, ich sags nicht oft genug, ehrlich. Als ich deinen Humor zu spüren bekommen habe, wusste ich direkt, ich muss dich zu meiner Frau machen. Ich liebe es mit dir zu lachen, ich hoffe du bleibst für immer so spaßig und lustig. Wünsche ich mir vom Herzen. Bitte bleib wie du bist und lieb mich für immer. Liebe dich Rouhi.')">
+      <div class="envelope-inner">
+        <div class="envelope-back"></div>
+        <div class="envelope-front"></div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal">♥</div>
+        <div class="envelope-label">Your Personality</div>
+      </div>
+    </div>
+
+    <!-- Lila Brief in der Mitte mit "ME+YOU" -->
+    <div class="envelope envelope-7" onclick="showPasswordModal()">
+      <div class="envelope-inner">
+        <div class="envelope-back"></div>
+        <div class="envelope-front"></div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal"><i class="fas fa-fire" style="color: #ff4500;"></i></div>
+        <div class="envelope-label">ME+YOU</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="letter-opened" id="openedLetter">
+    <div class="close-btn" onclick="closeLetter()"></div>
+    <div id="letterDecorations"></div>
+    <h2 class="letter-title" id="letterTitle"></h2>
+    <div class="letter-content" id="letterText"></div>
+    <div class="letter-lines"></div>
+  </div>
+
+  <!-- Passwort-Eingabe-Modal -->
+  <div class="password-modal" id="passwordModal">
+    <h2>Wie nennt mich immer mein Schatz?</h2>
+    <input type="password" class="password-input" id="passwordInput" placeholder="Passwort">
+    <button class="password-submit" onclick="checkPassword()">Bestätigen</button>
+  </div>
+
+  <script>
+    let currentEnvelope = null;
+    let currentTitle = '';
+    let currentText = '';
+
+    // Create random heart emojis in background
+    function createHeartBackground() {
+      const heartEmojis = ['❤️', '🧡', '💛', '💚', '💙', '💜', '🤎'];
+      const body = document.body;
+      
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-bg';
+        heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+        
+        // Random position
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.top = Math.random() * 100 + 'vh';
+        
+        // Random size
+        const size = Math.random() * 20 + 10;
+        heart.style.fontSize = size + 'px';
+        
+        // Random animation duration
+        heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        
+        body.appendChild(heart);
+      }
+    }
+
+    function openLetter(el, title, text) {
+      // Farbe des geöffneten Briefs setzen
+      const envelopeClass = Array.from(el.classList).find(c => c.startsWith('envelope-'));
+      const envelopeNumber = envelopeClass.split('-')[1];
+      const letterOpened = document.getElementById('openedLetter');
+      const decorations = document.getElementById('letterDecorations');
+      
+      // Alle Farbklassen entfernen
+      for (let i = 1; i <= 7; i++) {
+        letterOpened.classList.remove(`letter-bg-${i}`);
+      }
+      
+      // Passende Farbe hinzufügen
+      letterOpened.classList.add(`letter-bg-${envelopeNumber}`);
+      
+      // Dekorationen setzen
+      decorations.innerHTML = '';
+      if (envelopeNumber === '7') {
+        // Schlösser für lila Brief
+        decorations.innerHTML = `
+          <div class="decoration lock-top-left"><i class="fas fa-lock"></i></div>
+          <div class="decoration lock-top-right"><i class="fas fa-lock"></i></div>
+          <div class="decoration lock-bottom-left"><i class="fas fa-lock"></i></div>
+          <div class="decoration lock-bottom-right"><i class="fas fa-lock"></i></div>
+        `;
+      } else {
+        // Herzen für normale Briefe
+        decorations.innerHTML = `
+          <div class="decoration heart-top-left">❤️</div>
+          <div class="decoration heart-top-right">❤️</div>
+          <div class="decoration heart-bottom-left">❤️</div>
+          <div class="decoration heart-bottom-right">❤️</div>
+        `;
+      }
+      
+      // Titel und Text setzen
+      document.getElementById('letterTitle').textContent = title;
+      document.getElementById('letterText').innerHTML = text;
+      
+      document.body.classList.add('letter-open');
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('openedLetter').style.display = 'block';
+      
+      // Animation für den ausgewählten Brief
+      el.classList.add('opened');
+      setTimeout(() => {
+        el.classList.remove('opened');
+      }, 1000);
+    }
+
+    function showPasswordModal() {
+      currentEnvelope = document.querySelector('.envelope-7');
+      currentTitle = 'ME+YOU';
+      currentText = 'Ilajda, ich will, dass du verstehst. Nur ICH werde dich jemals so lieben. Nur ich kann dir die Liebe geben, die du brauchst. Nur mit mir wirst du glücklich. Du darfst nur mir gehören. ILAJDA DU BIST MEINE. DU darfst nur mich lieben, du darfst nur mich vermissen. Du darfst nur mich anfassen. ICH LIEBE DICH. Deine Augen gehören mir, also guck nur mich an, deine Lippen gehören mir, also küss nur mich. Deine Stimme ist nur für mich, du darfst nur meinen Namen sagen. Ich will, dass du mich liebst, dass du Sehnsucht nach meiner Liebe bekommst. Ich brauche dich in meinem Leben Schatz, ich möchte dich so fest umarmen, bis du meine Herzschläge durch meine Brust hörst. Ich will meine Hände um deinen Hals legen und dich küssen, bis du keine Luft mehr bekommst. Ich will deine kalten kleinen Hände mit meinen erwärmen. Ich will deine Hüfte halten, während du mich umarmst. ICH habe Sehnsucht nach dir, ich will dich, und nur dich. LIEB mich, vermisse mich, such meine Nähe. ICH LIEBE DICH ILAJDA SEHRSEHRSEHRSEHRSEHR und ich werde den Rest meines Lebens mit dir verbringen. WEIL DU MEINE FRAU BIST. DEIN BEBOOOOOO';
+      
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('passwordModal').style.display = 'block';
+      document.getElementById('passwordInput').focus();
+    }
+
+    function checkPassword() {
+      const password = document.getElementById('passwordInput').value;
+      const correctPassword = "Bebo";
+      
+      if (password === correctPassword) {
+        // Passwort korrekt
+        document.getElementById('passwordModal').style.display = 'none';
+        document.getElementById('passwordInput').value = '';
+        openLetter(currentEnvelope, currentTitle, currentText);
+      } else {
+        // Passwort falsch
+        document.body.classList.add('shake');
+        setTimeout(() => {
+          document.body.classList.remove('shake');
+        }, 500);
+        document.getElementById('passwordInput').value = '';
+        document.getElementById('passwordInput').placeholder = "Falsche Antwort! Versuche es erneut";
+      }
+    }
+
+    function closeLetter() {
+      document.body.classList.remove('letter-open');
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('openedLetter').style.display = 'none';
+      document.getElementById('passwordModal').style.display = 'none';
+    }
+
+    document.getElementById('overlay').addEventListener('click', closeLetter);
+    
+    // Enter-Taste für Passworteingabe
+    document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        checkPassword();
+      }
+    });
+
+    // Create heart background when page loads
+    window.addEventListener('DOMContentLoaded', createHeartBackground);
+  </script>
+</body>
+</html>
